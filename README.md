@@ -7,7 +7,7 @@ Continuous machine learning pipelines are common in industrial settings where mo
 
 This repository is for simulating Quilt on the synthetic and real datasets. The program needs PyTorch, Jupyter Notebook, and CUDA.
 
-The directory contains a total of 8 files and 1 directory: 1 README, 3 python files, 4 jupyter notebooks, and the directory containing 6 numpy files for synthetic(SEA Concepts) and real dataset(NOAA Weather). Each dataset contains data, label, and drift point information. Since another real dataset(FDC) is not allowed to open to the public due to corporate secret, we only handle two datasets in this repository.
+The repository contains a total of 8 files and 1 directory: 1 README, 3 python files, 4 jupyter notebooks, and the directory containing 6 numpy files for synthetic(SEA Concepts) and real dataset(NOAA Weather). Each dataset contains data, label, and drift point information. Since another real dataset(FDC) is not allowed to open to the public due to corporate secret, we only handle two datasets in this repository.
 
 To simulate the algorithm, please use the jupyter notebook.
 The jupyter notebook will load the data and train the models with accuracy metric.
