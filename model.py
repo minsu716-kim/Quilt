@@ -7,7 +7,14 @@ from torch.nn import functional as F
 
 
 class NormalNN(nn.Module):
+    """NormalNN.
+    
+    Attributes:
+        input_features: Number of input features.
+        seed: Seed.
+    """
     def __init__(self, input_features, seed):
+        """Initializes NormalNN."""
         super(NormalNN, self).__init__()
         torch.manual_seed(seed)
         self.input_features = input_features
@@ -17,6 +24,13 @@ class NormalNN(nn.Module):
         self.l2 = nn.Linear(256, 1)        
 
     def forward(self, x):
+        """Train the model.
+        
+        Args:
+            x: Input data.
+        Returns:
+            Prediction result.
+        """
         x = x.view(-1,self.input_features)
         x = F.relu(self.l1(x))
         x = self.d1(x)
@@ -25,7 +39,15 @@ class NormalNN(nn.Module):
         
         
 class EarlyStopping:
+    """EarlyStopping.
+    
+    Attributes:
+        patience: Number of possible epochs with no improvement.
+        delta: Minimum change to qualify as an improvement.
+        path: Path to save model checkpoint.
+    """
     def __init__(self, patience=10, delta=0, path='checkpoint.pt'):
+        """Initializes EarlyStopping."""
         self.patience = patience
         self.counter = 0
         self.best_score = None
@@ -35,7 +57,14 @@ class EarlyStopping:
         self.path = path
         
     def __call__(self, val_loss, model):
+        """Monitors the improvement of the model.
         
+        Args:
+            val_loss: Validation loss.
+            model: Model.
+        Returns:
+            None.
+        """
         score = -val_loss
         
         if self.best_score is None:
@@ -51,19 +80,44 @@ class EarlyStopping:
             self.counter = 0
             
     def save_checkpoint(self, val_loss, model):
+        """Save the model checkpoint.
+        
+        Args:
+            val_loss: Validation loss.
+            model: Trained model.
+        Returns:
+            None.
+        """
         torch.save(model.state_dict(), self.path)
         self.val_loss_min = val_loss
         
 
 class NNClassifier:
+    """NNClassifier.
     
+    Attributes:
+        model: Train model.
+        criterion: Train criterion.
+        optimizer: Train optimizer.
+        optimizer_config: Train optimizer config.
+    """
     def __init__(self, model, criterion, optimizer, optimizer_config):
+        """Initializes NNClassifier."""
         self.model = model.cuda()
         self.optimizer = optimizer(self.model.parameters(), **optimizer_config)
         self.criterion = criterion
         self.LOSS = {'train': [], 'val': []}
         
     def fit(self, loader, epochs, earlystop_path):
+        """Train the model with validation.
+        
+        Args:
+            loader: Data loader.
+            epochs: Train epochs.
+            earlystop_path: Earlystop model checkpoint path.
+        Returns:
+            None.
+        """
         scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(self.optimizer, 'min', patience=10)
         early_stopping = EarlyStopping(patience=20, path=earlystop_path)
         
@@ -118,6 +172,13 @@ class NNClassifier:
         self.model.load_state_dict(torch.load(earlystop_path))
         
     def evaluate(self, loader):
+        """Evaluate the trained model.
+        
+        Args:
+            loader: Data loader.
+        Returns:
+            Evaluation result.
+        """
         eval_loss = 0.0
         output_dict = {'x': [], 'output': [], 'true_y': []}
         
