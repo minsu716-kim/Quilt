@@ -4,7 +4,17 @@ from torch.utils.data import TensorDataset
 
 
 def prepare_data(n, x_data, y_data, concept_drifts_li, dataset_li, feature_li):
+    """Prepare train, valid, test set for selection with drift points.
     
+    Args:
+        x_data: Data.
+        y_data: Label.
+        concept_drifts_li: Concept drift points.
+        dataset_li: Data segment list.
+        feature_li: Feature list.
+    Returns:
+        Train, valid, test set.
+    """
     x_temp = x_data[concept_drifts_li[n-1]:concept_drifts_li[n]]
     y_temp = y_data[concept_drifts_li[n-1]:concept_drifts_li[n]]
     
