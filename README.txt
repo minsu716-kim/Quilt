@@ -1,0 +1,5 @@
+This directory is for simulating Quilt on the synthetic and real datasets. The program needs PyTorch, scikit-multiflow, Jupyter Notebook, and CUDA.
+
+The directory contains a total of 6 files with 1 README, 3 python files, and 2 jupyter notebooks and 4 directories for bayesian optimization, data subset selection, model checkpoint, and dataset. The python files in DSS directory is based on CORDS (COResets and Data Subset selection) python library and we modify their codes to run on our concept drift setting and also implement Quilt. The dataset directory contains 3 numpy files of data, label, and concept drift points for each synthetic (SEA, Hyperplane, Random RBF, and Sine) and real dataset (Electricity, Weather, Spam, Usenet1, and Usenet2).
+
+To simulate the baselines and Quilt algorithm, please use the jupyter notebooks. The jupyter notebooks will load the data and train the model. After the training, the test accuracy, f1 score, and runtime results will be shown. Experiments are repeated 5 times each with different random seeds.
